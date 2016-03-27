@@ -43,8 +43,9 @@ class Fonctions
             return "" ;
     }
 
-    public static function verif_solde_user($user_login, $type_conges, $nb_jours)
+    public static function verif_solde_user($type_conges, $nb_jours)
     {
+        $user_login = $_SESSION['userlogin'];
         $verif = TRUE;
         // on ne tient compte du solde que pour les absences de type conges (conges avec solde annuel)
         if (\utilisateur\Fonctions::get_type_abs($type_conges)=="conges")
@@ -89,7 +90,7 @@ class Fonctions
 
         // verifie que le solde de conges sera encore positif après validation
         if( $_SESSION['config']['solde_toujours_positif'] ) {
-            $valid = $valid && \utilisateur\Fonctions::verif_solde_user($_SESSION['userlogin'], $new_type, $new_nb_jours);
+            $valid = $valid && \utilisateur\Fonctions::verif_solde_user($new_type, $new_nb_jours);
         }
 
         if( $valid ) {
@@ -634,15 +635,15 @@ class Fonctions
     /**
      * Encapsule le comportement du module de demande en cours
      *
-     * @param string $session Clé de session
 
      *
      * @return void
      * @access public
      * @static
      */
-    public static function demandeEnCoursModule($session)
+    public static function demandeEnCoursModule()
     {
+        $session=session_id();
         $return = '';
         if($_SESSION['config']['where_to_find_user_email']=="ldap"){
             include_once CONFIG_PATH .'config_ldap.php';
@@ -1198,8 +1199,9 @@ class Fonctions
     }
 
     //affiche le formulaire d'échange d'un jour de rtt-temps partiel / jour travaillé
-    public static function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet)
+    public static function saisie_echange_rtt($year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet)
     {
+        $user_login = $_SESSION['userlogin'];
         $return = '';
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $session=session_id();
@@ -1343,7 +1345,7 @@ class Fonctions
             $return .= '<h1>'. _('user_echange_rtt') .'</h1>';
 
             //affiche le formulaire de saisie d'une nouvelle demande de conges
-            $return .= \utilisateur\Fonctions::saisie_echange_rtt($_SESSION['userlogin'], $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet);
+            $return .= \utilisateur\Fonctions::saisie_echange_rtt($year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet);
         }
 
         return $return;
@@ -1352,15 +1354,16 @@ class Fonctions
     /**
      * Encapsule le comportement du module de l'historique des congés
      *
-     * @param string $session  Clé de session
-     * @param string $PHP_SELF
+
      *
      * @return void
      * @access public
      * @static
      */
-    public static function historiqueCongesModule($session, $PHP_SELF)
+    public static function historiqueCongesModule()
     {
+        $PHP_SELF=$_SERVER['PHP_SELF'];
+        $session=session_id();
         $return = '';
         if($_SESSION['config']['where_to_find_user_email']=="ldap"){
             include_once CONFIG_PATH .'config_ldap.php';
@@ -1498,15 +1501,16 @@ class Fonctions
      * Encapsule le comportement du module de l'historique des autres absences
      *
      * @param string $onglet Nom de l'onglet à afficher
-     * @param string $session  Clé de session
-     * @param string $PHP_SELF
+
      *
      * @return void
      * @access public
      * @static
      */
-    public static function historiqueAutresAbsencesModule($onglet, $session, $PHP_SELF)
+    public static function historiqueAutresAbsencesModule($onglet)
     {
+        $PHP_SELF=$_SERVER['PHP_SELF'];
+        $session=session_id();
         $return = '';
         if($_SESSION['config']['where_to_find_user_email']=="ldap"){
             include_once CONFIG_PATH .'config_ldap.php';

@@ -29,57 +29,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-// affichage du calendrier avec les case à cocher, du mois du début du congés
-function  affiche_calendrier_saisie_date($user_login, $year, $mois, $type_debut_fin) {
-    $jour_today            = date('j');
-    $jour_today_name        = date('D');
-    $first_jour_mois_timestamp    = mktime(0,0,0,$mois,1,$year);
-    $last_jour_mois_timestamp    = mktime(0,0,0,$mois +1 , 0,$year);
-    $mois_name            = date_fr('F', $first_jour_mois_timestamp);
-    $first_jour_mois_rang        = date('w', $first_jour_mois_timestamp); // jour de la semaine en chiffre (0=dim , 6=sam)
-    $last_jour_mois_rang        = date('w', $last_jour_mois_timestamp); // jour de la semaine en chiffre (0=dim , 6=sam)
-    $nb_jours_mois            = ( $last_jour_mois_timestamp - $first_jour_mois_timestamp + 60*60 *12 ) / (24 * 60 * 60); // + 60*60 *12 for fucking DST
-
-    if( $first_jour_mois_rang == 0 )
-        $first_jour_mois_rang=7 ; // jour de la semaine en chiffre (1=lun , 7=dim)
-
-    if( $last_jour_mois_rang == 0 )
-        $last_jour_mois_rang=7 ; // jour de la semaine en chiffre (1=lun , 7=dim)
-
-    echo '<table class="calendrier_saisie_date_debut" cellpadding="0" cellspacing="0">
-        <thead>
-        <tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">
-        <td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td>
-        </tr>
-        <tr bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">
-        <td class="cal-saisie2">'. _('lundi_1c') .'</td>
-        <td class="cal-saisie2">'. _('mardi_1c') .'</td>
-        <td class="cal-saisie2">'. _('mercredi_1c') .'</td>
-        <td class="cal-saisie2">'. _('jeudi_1c') .'</td>
-        <td class="cal-saisie2">'. _('vendredi_1c') .'</td>
-        <td class="cal-saisie2">'. _('samedi_1c') .'</td>
-        <td class="cal-saisie2">'. _('dimanche_1c') .'</td>
-        </tr>
-        </thead>
-        <tbody>';
-    $start_nb_day_before = $first_jour_mois_rang -1;
-    $stop_nb_day_before = 7 - $last_jour_mois_rang ;
-
-    for ( $i = - $start_nb_day_before; $i <= $nb_jours_mois + $stop_nb_day_before; $i ++) {
-        if ( ($i + $start_nb_day_before ) % 7 == 0)
-            echo '<tr>';
-        $j_timestamp=mktime (0,0,0,$mois, $i +1 ,$year);
-        $td_second_class = get_td_class_of_the_day_in_the_week($j_timestamp);
-                if ($i < 0 || $i > $nb_jours_mois )
-                    echo '<td class="'.$td_second_class.'">-</td>';
-                else
-                    affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, $type_debut_fin);
-                if ( ($i + $start_nb_day_before ) % 7 == 6)
-                    echo '<tr>';
-    }
-    echo '</tbody></table>';
-}
-
 
 // retourne le nom du jour de la semaine en francais sur 2 caracteres
 function get_j_name_fr_2c($timestamp)
@@ -2115,8 +2064,9 @@ function execute_sql_file($file)
 
 // verif des droits du user à afficher la page qu'il demande (pour éviter les hacks par bricolage d'URL)
 
-function verif_droits_user($session, $niveau_droits)
+function verif_droits_user($niveau_droits)
 {
+    $session=session_id() ;
     $niveau_droits = strtolower($niveau_droits);
 
     // verif si $_SESSION['is_admin'] ou $_SESSION['is_resp'] ou $_SESSION['is_hr'] =="N" ou $_SESSION['is_active'] =="N"
@@ -2320,22 +2270,4 @@ function revert_date($date){
     $date_component = explode('-', $date);
 
     return implode('/', $date_component);
-}
-
-//date au format d/m/Y
-function get_nb_jour($date_deb, $date_fin, $demi_jour_deb, $demi_jour_fin){
-    $date_deb = new DateTime($date_deb); //inclusive
-    $date_fin = new DateTime($date_fin); //exclusive
-    $diff = $date_deb->diff($date_fin);
-    $diff = $diff->format("%a");
-
-    if($demi_jour_deb == 'am' && $demi_jour_fin =='pm') {
-        $diff = $diff + 1;
-    }
-
-    if($demi_jour_deb == $demi_jour_fin) {
-        $diff = $diff + 0.5;
-    }
-
-    return $diff;
 }

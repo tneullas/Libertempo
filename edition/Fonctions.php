@@ -255,8 +255,9 @@ class Fonctions
      * @access public
      * @static
      */
-    public static function editUserModule($session)
+    public static function editUserModule()
     {
+        $session=session_id();
         /*************************************/
         // recup des parametres reçus :
         // SERVER
@@ -542,8 +543,9 @@ class Fonctions
      * @access public
      * @static
      */
-    public static function editPapierModule($session)
+    public static function editPapierModule()
     {
+        $session=session_id();
         /*************************************/
         // recup des parametres reçus :
         // GET / POST
@@ -1015,8 +1017,9 @@ class Fonctions
      * @access public
      * @static
      */
-    public static function editPDFModule($session)
+    public static function editPDFModule()
     {
+        $session=session_id();
         /*************************************/
         // recup des parametres reçus :
         // GET / POST

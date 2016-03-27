@@ -1906,7 +1906,7 @@ class Fonctions
     public static function pageJoursChomesModule($session)
     {
         // verif des droits du user à afficher la page
-        verif_droits_user($session, "is_hr");
+        verif_droits_user("is_hr");
         $return = '';
         /*** initialisation des variables ***/
         /*************************************/
@@ -3033,7 +3033,7 @@ class Fonctions
     public static function pageJoursFermetureModule($session)
     {
         // verif des droits du user à afficher la page
-        verif_droits_user($session, "is_hr");
+        verif_droits_user("is_hr");
         $return = '';
 
         /*** initialisation des variables ***/

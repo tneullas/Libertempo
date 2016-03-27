@@ -34,4 +34,4 @@ include_once ROOT_PATH .'fonctions_conges.php';
 include_once INCLUDE_PATH .'fonction.php';
 include_once INCLUDE_PATH .'session.php';
 
-\export\Fonctions::exportVCalendarModule($session);
+\export\Fonctions::exportVCalendarModule();

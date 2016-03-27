@@ -41,5 +41,5 @@ include_once INCLUDE_PATH .'fonction.php';
 include_once INCLUDE_PATH .'session.php';
 include_once ROOT_PATH .'fonctions_calcul.php';
 
-echo \hr\Fonctions::pageJoursFermetureModule($session);
+echo \hr\Fonctions::pageJoursFermetureModule();
 bottom();

@@ -976,14 +976,14 @@ class Fonctions
     /**
      * Encapsule le comportement du module calendrier
      *
-     * @param string $session
      *
      * @return void
      * @access public
      * @static
      */
-    public static function calendrierModule($session)
+    public static function calendrierModule()
     {
+        $session=session_id();
         $return = '';
 
         if(substr($session, 0, 9)!="phpconges") {

@@ -59,13 +59,12 @@ class Fonctions
     /**
      * Encapsule le comportement du module de l'export VCALENDAR
      *
-     * @param string $session
      *
      * @return void
      * @access public
      * @static
      */
-    public static function exportVCalendarModule($session)
+    public static function exportVCalendarModule()
     {
     	/*** initialisation des variables ***/
     	$session=session_id();

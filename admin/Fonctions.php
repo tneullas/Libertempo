@@ -1321,14 +1321,13 @@ class Fonctions
     /**
      * Encapsule le comportement du module de gestion des utilisateurs
      *
-     * @param string $session
-     *
      * @return string
      * @access public
      * @static
      */
-    public static function userModule($session)
+    public static function userModule()
     {
+        $session  = session_id();
         $return = '<h1>' . _('admin_onglet_gestion_user') . '</h1>';
 
         /*********************/
@@ -1556,8 +1555,9 @@ class Fonctions
      * @access public
      * @static
      */
-    public static function changeMotDePasseUserModule($onglet, $session)
+    public static function changeMotDePasseUserModule($onglet)
     {
+        $session  = session_id();
         $return = '';
         /*************************************/
         // recup des parametres reçus :
@@ -1994,10 +1994,11 @@ class Fonctions
      * @access public
      * @static
      */
-    public static function saveRestoreModule($session)
+    public static function saveRestoreModule()
     {
+        $session  = session_id();
         // verif des droits du user à afficher la page
-        verif_droits_user($session, "is_admin");
+        verif_droits_user("is_admin");
 
 
         /*** initialisation des variables ***/
@@ -2162,8 +2163,9 @@ class Fonctions
      * @access public
      * @static
      */
-    public static function modifGroupeModule($session, $onglet)
+    public static function modifGroupeModule($onglet)
     {
+        $session  = session_id();
         /*************************************/
         // recup des parametres reçus :
 
@@ -2727,8 +2729,9 @@ class Fonctions
      * @access public
      * @static
      */
-    public static function modifUserModule($session, $onglet)
+    public static function modifUserModule($onglet)
     {
+        $session  = session_id();
         $u_login              = getpost_variable('u_login') ;
         $u_login_to_update    = getpost_variable('u_login_to_update') ;
         $tab_checkbox_sem_imp = getpost_variable('tab_checkbox_sem_imp') ;
@@ -2878,8 +2881,9 @@ class Fonctions
      * @access public
      * @static
      */
-    public static function supprimerGroupeModule($session, $onglet)
+    public static function supprimerGroupeModule($onglet)
     {
+        $session  = session_id();
         $group = getpost_variable('group');
         $group_to_delete = getpost_variable('group_to_delete');
         $return = '';
@@ -2999,8 +3003,9 @@ class Fonctions
      * @access public
      * @static
      */
-    public static function supprimerUtilisateurModule($session, $onglet)
+    public static function supprimerUtilisateurModule($onglet)
     {
+        $session  = session_id();
         $return = '';
         /*************************************/
         // recup des parametres reçus :

@@ -157,7 +157,7 @@ class Fonctions
     public static function logModule($session)
     {
         // verif des droits du user à afficher la page
-        verif_droits_user($session, "is_admin");
+        verif_droits_user("is_admin");
         $return = '';
 
         /*** initialisation des variables ***/
@@ -332,7 +332,7 @@ class Fonctions
     public static function mailModule($session)
     {
         // verif des droits du user à afficher la page
-        verif_droits_user($session, "is_admin");
+        verif_droits_user("is_admin");
         $return = '';
 
 
@@ -821,7 +821,7 @@ class Fonctions
         include_once INCLUDE_PATH .'session.php';
 
         // verif des droits du user à afficher la page
-        verif_droits_user($session, "is_admin");
+        verif_droits_user("is_admin");
 
 
 
@@ -1117,7 +1117,7 @@ class Fonctions
     public static function configurationModule($session)
     {
         // verif des droits du user à afficher la page
-        verif_droits_user($session, "is_admin");
+        verif_droits_user("is_admin");
         $return = '';
 
         /*** initialisation des variables ***/

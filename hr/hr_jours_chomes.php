@@ -32,4 +32,4 @@ $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session']
 if (file_exists(CONFIG_PATH .'config_ldap.php'))
     include CONFIG_PATH .'config_ldap.php';
 
-echo \hr\Fonctions::pageJoursChomesModule($session);
+echo \hr\Fonctions::pageJoursChomesModule();
