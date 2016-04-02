@@ -40,8 +40,9 @@ class Fonctions
      * @access public
      * @static
      */
-    public static function pagePrincipaleModule(array $tab_type_cong, array $tab_type_conges_exceptionnels, $session)
+    public static function pagePrincipaleModule(array $tab_type_cong, array $tab_type_conges_exceptionnels)
     {
+        $session=session_id();
         /***********************************/
         // AFFICHAGE ETAT CONGES TOUS USERS
         /***********************************/

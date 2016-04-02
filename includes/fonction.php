@@ -202,23 +202,21 @@ function disable_plugin($plugin){
 //
 // indique (TRUE / FALSE) si une session est valide (par / au temps de connexion)
 //
-function session_is_valid($session)
+function session_is_valid()
 {
-   // ATTENTION:  on fixe l'id de session comme nom de session pour que , sur un meme pc, on puisse se loguer sous 2 users à la fois
    if (session_id() == "")
    {
-      session_name($session);
       session_start();
    }
 
     if( (isset($_SESSION['timestamp_last'])) && (isset($_SESSION['config'])) )
     {
         $difference = time() - $_SESSION['timestamp_last'];
-        if ( ($session==session_id()) && ($difference < $_SESSION['config']['duree_session']) )
+        if ($difference < $_SESSION['config']['duree_session']) 
             return true;
     }
 
-    return false;
+            return $_SESSION['userlogin'] != '' ? TRUE : FALSE;
 }
 
 //
@@ -228,10 +226,6 @@ function session_create($username)
 {
     if ($username != "")
     {
-	if(isset($_SESSION)) unset($_SESSION);
-        $session = "phpconges".md5(uniqid(rand()));
-        session_name($session);
-        session_id($session);
 
         session_start();
         $_SESSION['userlogin']=$username;
@@ -240,28 +234,23 @@ function session_create($username)
         $_SESSION['timestamp_last']=$maintenant;
         if (function_exists('init_config_tab'))
             $_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
-        //$session=session_id();
 
         if (isset($_REQUEST['lang']))
             $_SESSION['lang'] = $_REQUEST['lang'];
-    }
-    else
-    {
-        $session="";
     }
 
     $comment_log = 'Connexion de '.$username;
     log_action(0, "", $username, $comment_log);
 
-    return   $session;
+    return   session_id();
 }
 
 //
 // mise a jour d'une session
 //
-function session_update($session)
+function session_update()
 {
-   if ($session != "")
+   if (session_id() != "")
    {
         $maintenant=time();
         $_SESSION['timestamp_last']=$maintenant;
@@ -271,9 +260,9 @@ function session_update($session)
 //
 // destruction d'une session
 //
-function session_delete($session)
+function session_delete()
 {
-   if ($session != "")
+   if (session_id() != "")
    {
      unset($_SESSION['userlogin']);
      unset($_SESSION['timestamp_start']);
