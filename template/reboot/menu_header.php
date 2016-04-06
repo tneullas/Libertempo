@@ -3,10 +3,10 @@
     include TEMPLATE_PATH . 'template_define.php';
     $printable = getpost_variable('printable');
     if (is_resp($_SESSION['userlogin'])) {
-        $home = 'responsable/resp_index.php?session='.$session;
+        $home = 'responsable/resp_index.php';
     }
     else {
-        $home = 'utilisateur/user_index.php?session='.$session;
+        $home = 'utilisateur/user_index.php';
     }
     //user mode
     $user_mode = '';
@@ -36,21 +36,19 @@
 
     switch($tmp) {
         case 'admin':
-            $mod_toolbar[] = '<a href="#" onClick="OpenPopUp(\''. ROOT_PATH .'admin/admin_db_sauve.php?session=' . $session . '\', \'\', 800, 600); return false;"><i class="fa fa-save"></i><span>' . _('admin_button_save_db_2') . '</span></a>';
+            $mod_toolbar[] = '<a href="#" onClick="OpenPopUp(\''. ROOT_PATH .'admin/admin_db_sauve.php\', \'\', 800, 600); return false;"><i class="fa fa-save"></i><span>' . _('admin_button_save_db_2') . '</span></a>';
             if($_SESSION['config']['affiche_bouton_config_pour_admin'] || $_SESSION['config']['affiche_bouton_config_absence_pour_admin'] || $_SESSION['config']['affiche_bouton_config_mail_pour_admin'] || $_SESSION['userlogin']=="admin" )
-                $mod_toolbar[] = "<a href=\"" . ROOT_PATH . "config/index.php?session=$session\"" . ($tmp == 'config' ? 'class="active"' : '') . "><i class=\"fa fa-th-list\"></i><span>" . _('admin_button_config_2') . "</span></a>";
+                $mod_toolbar[] = "<a href=\"" . ROOT_PATH . "config/index.php\"" . ($tmp == 'config' ? 'class="active"' : '') . "><i class=\"fa fa-th-list\"></i><span>" . _('admin_button_config_2') . "</span></a>";
         break;
         case 'hr':
-            $mod_toolbar[] = "<a href=\"" . ROOT_PATH . "hr/hr_jours_fermeture.php?session=$session\"><i class=\"fa fa-calendar\"></i><span>" . _('admin_button_jours_fermeture_2') . "</span></a>";
+            $mod_toolbar[] = "<a href=\"" . ROOT_PATH . "hr/hr_jours_fermeture.php\"><i class=\"fa fa-calendar\"></i><span>" . _('admin_button_jours_fermeture_2') . "</span></a>";
         break;
         case 'utilisateur':
             $mod_toolbar[] = '<a href="#"
-            onClick="OpenPopUp(\'' . ROOT_PATH . 'export/export_vcalendar.php?session=' . $session .
-            '&user_login=' . $_SESSION['userlogin'] .
-            '\', \'\', 600, 400);return false;">
-            <i class="fa fa-download"></i><span>' . _('Exporter cal') . '</span></a>';
+            onClick="OpenPopUp(\'' . ROOT_PATH . 'export/export_vcalendar.php&user_login=' . $_SESSION['userlogin'] .
+            '\', \'\', 600, 400);return false;"><i class="fa fa-download"></i><span>' . _('Exporter cal') . '</span></a>';
             if($_SESSION['config']['editions_papier'])
-                $mod_toolbar[] = "<a href=\"" . ROOT_PATH . "edition/edit_user.php?session=$session\"><i class=\"fa fa-file-text\"></i><span>"._('button_editions')."</span></a>";
+                $mod_toolbar[] = "<a href=\"" . ROOT_PATH . "edition/edit_user.php\"><i class=\"fa fa-file-text\"></i><span>"._('button_editions')."</span></a>";
         break;
     }
 ?>
@@ -97,7 +95,7 @@
                     </div>
                     <?php if( ($_SESSION['config']['user_affiche_calendrier'] && $tmp=='utilisateur') || ($_SESSION['config']['resp_affiche_calendrier'] && $tmp=='responsable') || $tmp=='hr' ): ?>
                     <div class="calendar-link">
-                        <a title="<?= _('button_calendar') ?>" href="<?= ROOT_PATH ?>calendrier.php?session=<?= $session ?>">
+                        <a title="<?= _('button_calendar') ?>" href="<?= ROOT_PATH ?>calendrier.php">
                             <i class="fa fa-calendar"></i>
                             <?= _('button_calendar') ?>
                         </a>
@@ -105,13 +103,13 @@
                     <?php endif; ?>
                     <ul class="nav">
                         <li class="bottom-links">
-                            <a class="refresh-link" href="<?= $_SERVER['PHP_SELF'] ?>?session=<?= $session ?>&amp;onglet=<?= $onglet ?>" title="Actualiser">
+                            <a class="refresh-link" href="<?= $_SERVER['PHP_SELF'] ?>?onglet=<?= $onglet ?>" title="Actualiser">
                                 <i class="fa fa-refresh"></i>
                             </a>
                         </li>
                         <?php if($_SESSION['config']['auth']): ?>
                             <li class="bottom-links">
-                                <a class="disconnect-link" href="<?= ROOT_PATH ?>deconnexion.php?session=<?= $session ?>" title="Se déconnecter">
+                                <a class="disconnect-link" href="<?= ROOT_PATH ?>deconnexion.php" title="Se déconnecter">
                                     <i class="fa fa-power-off"></i>
                                 </a>
                             </li>
@@ -130,21 +128,21 @@
                                 <ul class="dropdown-menu dropdown-select" role="menu" aria-labelledby="dropdown-mode">
                                 <?php if (is_admin($_SESSION['userlogin'])): ?>
                                     <li>
-                                        <a href="<?= ROOT_PATH ?>admin/admin_index.php?session=<?= $session ?>" <?php print ($tmp == 'admin' || $tmp == 'config') ? 'active' : '' ;?>>Administration</a>
+                                        <a href="<?= ROOT_PATH ?>admin/admin_index.php" <?php print ($tmp == 'admin' || $tmp == 'config') ? 'active' : '' ;?>>Administration</a>
                                     </li>
                                 <?php endif; ?>
                                 <?php if (is_hr($_SESSION['userlogin'])): ?>
                                     <li>
-                                        <a href="<?= ROOT_PATH ?>hr/hr_index.php?session=<?= $session ?>" <?php print ($tmp == 'hr') ? 'active' : '' ;?>>RH</a>
+                                        <a href="<?= ROOT_PATH ?>hr/hr_index.php" <?php print ($tmp == 'hr') ? 'active' : '' ;?>>RH</a>
                                     </li>
                                 <?php endif; ?>
                                 <?php if (is_resp($_SESSION['userlogin'])): ?>
                                     <li>
-                                        <a href="<?= ROOT_PATH ?>responsable/resp_index.php?session=<?= $session ?>" <?php print ($tmp == 'utilisateur') ? 'active' : '' ;?>><?= _('button_responsable_mode');?></a>
+                                        <a href="<?= ROOT_PATH ?>responsable/resp_index.php" <?php print ($tmp == 'utilisateur') ? 'active' : '' ;?>><?= _('button_responsable_mode');?></a>
                                     </li>
                                 <?php endif; ?>
                                     <li>
-                                        <a href="<?= ROOT_PATH ?>utilisateur/user_index.php?session=<?= $session ?>" <?php print ($tmp == 'utilisateur') ? 'active' : '' ;?>><?= _('user') ?></a>
+                                        <a href="<?= ROOT_PATH ?>utilisateur/user_index.php" <?php print ($tmp == 'utilisateur') ? 'active' : '' ;?>><?= _('user') ?></a>
                                     </li>
                                 </ul>
                             </li>

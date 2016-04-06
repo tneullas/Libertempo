@@ -34,7 +34,6 @@ class Fonctions
     public static function form_saisie($user, $date_debut, $date_fin)
     {
     	$PHP_SELF=$_SERVER['PHP_SELF'];
-    	$session=session_id();
 
     	$date_today=date("d-m-Y");
     	if($date_debut=="")
@@ -66,9 +65,6 @@ class Fonctions
      */
     public static function exportVCalendarModule()
     {
-    	/*** initialisation des variables ***/
-    	$session=session_id();
-    	/************************************/
 
     	/*************************************/
     	// recup des parametres reçus :

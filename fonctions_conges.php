@@ -44,11 +44,10 @@ function get_j_name_fr_2c($timestamp)
 function saisie_nouveau_conges2($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet)
 {
     $PHP_SELF=$_SERVER['PHP_SELF'];
-    $session=session_id();
     $new_date_fin = date('d/m/Y');
     $return = '';
 
-    $return .= '<form NAME="dem_conges" action="' . $PHP_SELF . '?session=' . $session . '&onglet=' . $onglet . '" method="POST">
+    $return .= '<form NAME="dem_conges" action="' . $PHP_SELF . '?onglet=' . $onglet . '" method="POST">
         <div class="row">
         <div class="col-md-6">
         <div class="form-inline">';
@@ -200,10 +199,9 @@ function saisie_nouveau_conges2($user_login, $year_calendrier_saisie_debut, $moi
     $return .= '<br>';
     $return .= '<input type="hidden" name="user_login" value="' . $user_login . '">';
     $return .= '<input type="hidden" name="new_demande_conges" value=1>';
-    $return .= '<input type="hidden" name="session" value="' . $session . '">';
     // boutons du formulaire
     $return .= '<input type="submit" class="btn btn-success" value="' . _('form_submit') . '">';
-    $return .= '<a class="btn" href="' . $PHP_SELF . '?session=' . $session . '">' . _('form_cancel') . '</a>';
+    $return .= '<a class="btn" href="' . $PHP_SELF . '">' . _('form_cancel') . '</a>';
     $return .= '</form>';
     return $return;
 }
@@ -2066,7 +2064,6 @@ function execute_sql_file($file)
 
 function verif_droits_user($niveau_droits)
 {
-    $session=session_id() ;
     $niveau_droits = strtolower($niveau_droits);
 
     // verif si $_SESSION['is_admin'] ou $_SESSION['is_resp'] ou $_SESSION['is_hr'] =="N" ou $_SESSION['is_active'] =="N"
@@ -2080,7 +2077,7 @@ function verif_droits_user($niveau_droits)
         $lang_divers_vous_authentifier    =  _('divers_vous_authentifier') ;
 
         // on delete la session et on renvoit sur l'authentification (page d'accueil)
-        session_delete($session);
+        session_delete();
 
         // message d'erreur !
         echo "<center>\n";

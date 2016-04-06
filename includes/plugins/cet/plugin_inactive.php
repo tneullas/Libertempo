@@ -30,11 +30,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $PHP_SELF=$_SERVER['PHP_SELF'];
 $timeout=2 ; // refresh après maj.
-
-if(!isset($session) || $session == "")
-    $URL = "$PHP_SELF";
-else
-    $URL = "$PHP_SELF?session=$session";
+$URL = "$PHP_SELF";
 
 $update_plugin_table = "UPDATE conges_plugins SET p_is_active = '0'
   WHERE p_name='".$plugin."';";

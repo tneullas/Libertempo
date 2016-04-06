@@ -31,11 +31,8 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 $timeout=2 ; // refresh après maj.
 
 $PHP_SELF=$_SERVER['PHP_SELF'];
+$URL = "$PHP_SELF";
 
-if(!isset($session) || $session == "")
-    $URL = "$PHP_SELF";
-else
-    $URL = "$PHP_SELF?session=$session";
 echo "<META HTTP-EQUIV=REFRESH CONTENT=\"$timeout; URL=$URL\">";
 
 $delete_table_plugin_cet_query = "DROP TABLE IF EXISTS `conges_plugin_cet`;";

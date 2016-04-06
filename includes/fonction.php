@@ -71,7 +71,6 @@ function curPage() {
 
 function header_popup($title = '' , $additional_head = '' ) {
     global $type_bottom;
-    global $session;
 
     static $last_use = '';
     if ($last_use == '') {
@@ -89,7 +88,6 @@ function header_popup($title = '' , $additional_head = '' ) {
 
 function header_error($title = '' , $additional_head = '' ) {
     global $type_bottom;
-    global $session;
 
     static $last_use = '';
     if ($last_use == '') {
@@ -107,7 +105,6 @@ function header_error($title = '' , $additional_head = '' ) {
 
 function header_login($title = '' , $additional_head = '' ) {
     global $type_bottom;
-    global $session;
 
     static $last_use = '';
     if ($last_use == '') {
@@ -125,7 +122,6 @@ function header_login($title = '' , $additional_head = '' ) {
 
 function header_menu( $info ,$title = '' , $additional_head = '' ) {
     global $type_bottom;
-    global $session;
 
     static $last_use = '';
     if ($last_use == '') {

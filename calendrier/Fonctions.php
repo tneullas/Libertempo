@@ -175,7 +175,6 @@ class Fonctions
     {
 
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id();
         $return = '';
 
         // quelle liste de groupes recuperer ?
@@ -206,7 +205,7 @@ class Fonctions
             $list_groupes=get_list_groupes_du_user($_SESSION['userlogin'] );
         }
 
-        $return .= '<form id="group-select-form" class="form-inline" action="' . $PHP_SELF . '?session=' . $session . '&printable=' . $printable . '&selected=' . $selected . '&year=' . $year . '&mois=' . $mois . '&first_jour=' . $first_jour . '" method="POST">';
+        $return .= '<form id="group-select-form" class="form-inline" action="' . $PHP_SELF . '?printable=' . $printable . '&selected=' . $selected . '&year=' . $year . '&mois=' . $mois . '&first_jour=' . $first_jour . '" method="POST">';
         if (trim($list_groupes) == '') {
             $tab_groupes=array();
         } else {
@@ -313,7 +312,6 @@ class Fonctions
     // affichage de la légende explicative des abréviations
     public static function affiche_legende_type_absence($tab_type_absence)
     {
-        $session=session_id();
 
         //    echo "      <table cellpadding=\"1\" cellspacing=\"1\" border=\"1\">\n" ;
         echo "      <table cellpadding=\"1\" class=\"tablo-cal\">\n" ;
@@ -329,7 +327,6 @@ class Fonctions
     // affichage de la légende des couleurs
     public static function affiche_legende()
     {
-        $session=session_id();
 
         //    echo "      <table cellpadding=\"1\" cellspacing=\"1\" border=\"1\">\n" ;
         echo "      <table cellpadding=\"1\" class=\"tablo-cal\">\n" ;
@@ -369,7 +366,6 @@ class Fonctions
     // et renvoit un tableau avec une key / une valeur : key = id type absence / valeur = nb jours pris le jour J
     public static function affiche_cellule_jour_user($sql_login, $j_timestamp, $year_select, $mois_select, $j, $second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence, &$returnString)
     {
-        $session=session_id();
         $return = array();
 
         // info bulle
@@ -597,7 +593,6 @@ class Fonctions
     public static function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $printable, $selected, $tab_type_absence, $select_groupe)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id();
         $nb_day = date('t', mktime(1,1,1,$mois,1,$year));
         $return = '';
 
@@ -856,7 +851,7 @@ class Fonctions
             if($printable==1) {
                 $text_nom="<strong>$sql_nom</strong>";
             } else {
-                $text_nom="<a href=\"$PHP_SELF?session=$session&selected=$sql_login&year=$year&mois=$mois&first_jour=$first_jour&printable=$printable&select_groupe=$select_groupe\" method=\"GET\">$sql_nom $sql_prenom</a>";
+                $text_nom="<a href=\"$PHP_SELF?selected=$sql_login&year=$year&mois=$mois&first_jour=$first_jour&printable=$printable&select_groupe=$select_groupe\" method=\"GET\">$sql_nom $sql_prenom</a>";
             }
 
             // affichage nom prenom quotité
@@ -936,7 +931,6 @@ class Fonctions
     public static function affichage_boutons_defilement($first_jour, $mois, $year, $select_groupe)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id();
         $return = '';
 
         if($mois==12) $next_mois=1;  else $next_mois=$mois+1 ;
@@ -953,10 +947,10 @@ class Fonctions
         $next_first_jour_year=date("Y", \calendrier\Fonctions::jour_suivant($first_jour, $mois, $year)) ;
 
         $return .= '<ul class="pager">';
-        $return .= '<li><a href="' . $PHP_SELF . '?session=' . $session . '&first_jour=1&mois=' . $prev_mois . '&year=' . $prev_year . '&select_groupe=' . $select_groupe . '" method="POST"><i class="fa fa-angle-double-left"></i>&nbsp;' . _('divers_mois_precedent_maj_1') . ' </a></li>';
-        $return .= '<li><a href="' . $PHP_SELF . '?session=' . $session . '&first_jour=' . $prev_first_jour . '&mois=' . $prev_first_jour_mois . '&year=' . $prev_first_jour_year . '&select_groupe=' . $select_groupe . '" method="POST"><i class="fa fa-angle-double-left"></i>&nbsp;' . _('calendrier_jour_precedent') . '</a></li>';
-        $return .= '<li><a href="' . $PHP_SELF . '?session=' . $session . '&first_jour=' . $next_first_jour . '&mois=' . $next_first_jour_mois .  '&year=' . $next_first_jour_year . '&select_groupe=' . $select_groupe . '" method="POST">' . _('calendrier_jour_suivant') . '&nbsp;<i class="fa fa-angle-double-right"></i></a></li>';
-        $return .= '<li><a href="' . $PHP_SELF . '?session=' . $session . '&first_jour=1&mois=' . $next_mois . '&year=' . $next_year  . '&select_groupe=' . $select_groupe . '" method="POST">' . _('divers_mois_suivant_maj_1') . '&nbsp;<i class="fa fa-angle-double-right"></i></a></li>';
+        $return .= '<li><a href="' . $PHP_SELF . '?first_jour=1&mois=' . $prev_mois . '&year=' . $prev_year . '&select_groupe=' . $select_groupe . '" method="POST"><i class="fa fa-angle-double-left"></i>&nbsp;' . _('divers_mois_precedent_maj_1') . ' </a></li>';
+        $return .= '<li><a href="' . $PHP_SELF . '?first_jour=' . $prev_first_jour . '&mois=' . $prev_first_jour_mois . '&year=' . $prev_first_jour_year . '&select_groupe=' . $select_groupe . '" method="POST"><i class="fa fa-angle-double-left"></i>&nbsp;' . _('calendrier_jour_precedent') . '</a></li>';
+        $return .= '<li><a href="' . $PHP_SELF . '?first_jour=' . $next_first_jour . '&mois=' . $next_first_jour_mois .  '&year=' . $next_first_jour_year . '&select_groupe=' . $select_groupe . '" method="POST">' . _('calendrier_jour_suivant') . '&nbsp;<i class="fa fa-angle-double-right"></i></a></li>';
+        $return .= '<li><a href="' . $PHP_SELF . '?first_jour=1&mois=' . $next_mois . '&year=' . $next_year  . '&select_groupe=' . $select_groupe . '" method="POST">' . _('divers_mois_suivant_maj_1') . '&nbsp;<i class="fa fa-angle-double-right"></i></a></li>';
         $return .= '</ul>';
         return $return;
     }
@@ -983,20 +977,7 @@ class Fonctions
      */
     public static function calendrierModule()
     {
-        $session=session_id();
         $return = '';
-
-        if(substr($session, 0, 9)!="phpconges") {
-            session_start();
-            $_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
-            if($_SESSION['config']['consult_calendrier_sans_auth']==FALSE) {
-                redirect( ROOT_PATH . 'index.php' );
-            }
-        }
-        else {
-            include_once INCLUDE_PATH .'session.php';
-        }
-
         $script = '<script language=javascript>
         function afficher(id)
         {
@@ -1098,11 +1079,11 @@ class Fonctions
 
         if($printable!=1) // si version ecran :
         {
-            $return .= '<br/><a href="' . $PHP_SELF . '?session=' . $session . '&printable=1&year=' . $year . '&mois=' . $mois . '&first_jour=' . $first_jour . '&select_groupe=' . $select_groupe . '" target="_blank" method="post">';
+            $return .= '<br/><a href="' . $PHP_SELF . '?printable=1&year=' . $year . '&mois=' . $mois . '&first_jour=' . $first_jour . '&select_groupe=' . $select_groupe . '" target="_blank" method="post">';
             $return .= '<i class="fa fa-print"></i>';
             $return .= _('calendrier_imprimable');
             $return .= '</a>';
-            $return .= '<br><a href="calendrier-pdf.php?session=' . $session . '&printable=1&year=' . $year . '&mois=' . $mois . '&first_jour=' . $first_jour . '&select_groupe=' . $select_groupe . '" target="_blank" method="post">';
+            $return .= '<br><a href="calendrier-pdf.php?printable=1&year=' . $year . '&mois=' . $mois . '&first_jour=' . $first_jour . '&select_groupe=' . $select_groupe . '" target="_blank" method="post">';
             $return .= '<img src="' . IMG_PATH . 'pdf_22x22_2.png" width="22" height="22" border="0" title="Version PDF">';
             $return .= 'PDF';
             $return .= '</a>';

@@ -47,7 +47,6 @@ if (session_is_valid()) //  UNE SESSION EXISTE
 } else {
 debug(session_id());
     session_delete();
-    $session="";
     $session_username="";
     $session_password="";
     $_SESSION['config']=init_config_tab();  // on recrée le tableau de config pour l'url du lien

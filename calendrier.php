@@ -28,11 +28,21 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 define('ROOT_PATH', '');
 require_once ROOT_PATH . 'define.php';
 
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
-
 include_once ROOT_PATH .'fonctions_conges.php';
 include_once INCLUDE_PATH .'fonction.php';
+
+        if(!session_is_valid()) {
+            $_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
+            $_SESSION['userlogin']="";
+            if($_SESSION['config']['consult_calendrier_sans_auth']==FALSE) {
+            include_once INCLUDE_PATH .'session.php';
+            }
+        }
+        else {
+            include_once INCLUDE_PATH .'session.php';
+        }
+
 $add_css = NULL;
 header_menu('', 'Libertempo : '._('calendrier_titre'), $add_css);
-echo \calendrier\Fonctions::calendrierModule($session);
+echo \calendrier\Fonctions::calendrierModule();
 bottom();

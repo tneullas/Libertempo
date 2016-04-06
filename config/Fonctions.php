@@ -31,7 +31,7 @@ namespace config;
  */
 class Fonctions
 {
-    public static function commit_vider_table_logs($session)
+    public static function commit_vider_table_logs()
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $return = '';
@@ -44,32 +44,27 @@ class Fonctions
         log_action(0, "", "", $comment_log);
 
         $return .= '<span class="messages">' . _('form_modif_ok') . '</span><br>';
-        if($session=="") {
             redirect( ROOT_PATH . 'config/index.php?onglet=logs');
-        }
-        else {
-            redirect( ROOT_PATH . 'config/index.php?session=' . $session . '&onglet=logs');
-        }
     }
 
-    public static function confirmer_vider_table_logs($session)
+    public static function confirmer_vider_table_logs()
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $return = '';
 
         $return .= '<center>';
         $return .= '<br><h2>' . _('confirm_vider_logs') . '</h2><br>';
-        $return .= '<form action="' . $PHP_SELF . '?session=' . $session . '&onglet=logs" method="POST">';
+        $return .= '<form action="' . $PHP_SELF . '?onglet=logs" method="POST">';
         $return .= '<input type="hidden" name="action" value="commit_suppr_logs">';
         $return .= '<input type="submit" value="' . _('form_delete_logs') . '">';
         $return .= '</form>';
-        $return .= '<form action="' . $PHP_SELF . '?session=' . $session . '&onglet=logs" method="POST">';
+        $return .= '<form action="' . $PHP_SELF . '?onglet=logs" method="POST">';
         $return .= '<input type="submit" value="' . _('form_cancel') . '"">';
         $return .= '</form></center>';
         return $return;
     }
 
-    public static function affichage($login_par, $session)
+    public static function affichage($login_par)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $return = '';
@@ -95,7 +90,7 @@ class Fonctions
 
             $childTable = '<tr><td class="histo" colspan="5">' . _('voir_les_logs_par') . '</td>';
             if($login_par!="") {
-                $childTable .= '<tr><td class="histo" colspan="5">' . _('voir_tous_les_logs') . '<a href="' . $PHP_SELF . '?session=' . $session . '&onglet=logs">' . _('voir_tous_les_logs') . '</a></td>';
+                $childTable .= '<tr><td class="histo" colspan="5">' . _('voir_tous_les_logs') . '<a href="' . $PHP_SELF . '?onglet=logs">' . _('voir_tous_les_logs') . '</a></td>';
             }
             $childTable .= '<tr><td class="histo" colspan="5">&nbsp;</td>';
 
@@ -118,7 +113,7 @@ class Fonctions
 
                 $childTable .= '<tr>';
                 $childTable .= '<td>' . $log_log_date . '</td>';
-                $childTable .= '<td><a href="' . $PHP_SELF . '?session=' . $session . '&onglet=logs&login_par=' . $log_login_par . '"><b>' . $log_login_par . '</b></a></td>';
+                $childTable .= '<td><a href="' . $PHP_SELF . '?onglet=logs&login_par=' . $log_login_par . '"><b>' . $log_login_par . '</b></a></td>';
                 $childTable .= '<td>' . $log_login_pour . '</td>';
                 $childTable .= '<td>' . $log_log_comment . '</td>';
                 $childTable .= '<td>' . $log_log_etat . '</td>';
@@ -129,11 +124,7 @@ class Fonctions
             ob_start();
             $table->render();
             $return .= ob_get_clean();
-            if($session=="") {
-                $return .= '<form action="' . $PHP_SELF . '?onglet=logs" method="POST">';
-            } else {
-                $return .= '<form action="' . $PHP_SELF . '?session=' . $session . '&onglet=logs" method="POST">';
-            }
+            $return .= '<form action="' . $PHP_SELF . '?onglet=logs" method="POST">';
 
             // affichage du bouton pour vider les logs
             $return .= '<input type="hidden" name="action" value="suppr_logs">';
@@ -148,13 +139,12 @@ class Fonctions
     /**
      * Encapsule le comportement du module d'affichage des logs
      *
-     * @param string $session
      *
      * @return void
      * @access public
      * @static
      */
-    public static function logModule($session)
+    public static function logModule()
     {
         // verif des droits du user à afficher la page
         verif_droits_user("is_admin");
@@ -177,27 +167,21 @@ class Fonctions
 
 
         if($action=="suppr_logs") {
-            $return .= \config\Fonctions::confirmer_vider_table_logs($session);
+            $return .= \config\Fonctions::confirmer_vider_table_logs();
         } elseif($action=="commit_suppr_logs") {
-            \config\Fonctions::commit_vider_table_logs($session);
+            \config\Fonctions::commit_vider_table_logs();
         } else {
-            $return .= \config\Fonctions::affichage($login_par, $session);
+            $return .= \config\Fonctions::affichage($login_par);
         }
         // bottom();
         return $return;
     }
 
-    public static function commit_modif($tab_new_values, $session)
+    public static function commit_modif($tab_new_values)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $return = '';
-
-        if($session=="") {
-            $URL = "$PHP_SELF?onglet=mail";
-        } else {
-            $URL = "$PHP_SELF?session=$session&onglet=mail";
-        }
-
+        $URL = "$PHP_SELF?onglet=mail";
 
         // update de la table
         foreach($tab_new_values as $nom_mail => $tab_mail) {
@@ -215,16 +199,11 @@ class Fonctions
         return $return;
     }
 
-    public static function test_config($tab_new_values, $session)
+    public static function test_config($tab_new_values)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $return = '';
-
-        if($session=="") {
-            $URL = "$PHP_SELF?onglet=mail";
-        } else {
-            $URL = "$PHP_SELF?session=$session&onglet=mail";
-        }
+        $URL = "$PHP_SELF?onglet=mail";
 
         // update de la table
         $mail_array             = find_email_adress_for_user($_SESSION['userlogin']);
@@ -242,16 +221,12 @@ class Fonctions
         return $return;
     }
 
-    public static function affichage_config_mail($tab_new_values, $session)
+    public static function affichage_config_mail($tab_new_values)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $return = '';
+        $URL = "$PHP_SELF?onglet=mail";
 
-        if($session=="") {
-            $URL = "$PHP_SELF?onglet=mail";
-        } else {
-            $URL = "$PHP_SELF?session=$session&onglet=mail";
-        }
 
         /**************************************/
         // affichage du titre
@@ -323,13 +298,12 @@ class Fonctions
     /**
      * Encapsule le comportement du module d'affichage des logs
      *
-     * @param string $session
      *
      * @return void
      * @access public
      * @static
      */
-    public static function mailModule($session)
+    public static function mailModule()
     {
         // verif des droits du user à afficher la page
         verif_droits_user("is_admin");
@@ -347,13 +321,13 @@ class Fonctions
         /*********************************/
 
         if($action=="modif") {
-            $return .= \config\Fonctions::commit_modif($tab_new_values, $session);
+            $return .= \config\Fonctions::commit_modif($tab_new_values);
         }
         if($action=="test") {
-            $return .= \config\Fonctions::test_config($tab_new_values, $session);
+            $return .= \config\Fonctions::test_config($tab_new_values);
         }
 
-        $return .= \config\Fonctions::affichage_config_mail($tab_new_values, $session);
+        $return .= \config\Fonctions::affichage_config_mail($tab_new_values);
 
         return $return;
     }
@@ -398,16 +372,11 @@ class Fonctions
         return $tab;
     }
 
-    public static function commit_ajout(&$tab_new_values, $session)
+    public static function commit_ajout(&$tab_new_values)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $return = '';
-
-        if($session=="") {
-            $URL = "$PHP_SELF?onglet=type_absence";
-        } else {
-            $URL = "$PHP_SELF?session=$session&onglet=type_absence";
-        }
+        $URL = "$PHP_SELF?onglet=type_absence";
 
         // verif de la saisie
         $erreur=FALSE ;
@@ -468,16 +437,12 @@ class Fonctions
         return $return;
     }
 
-    public static function commit_suppr($session, $id_to_update)
+    public static function commit_suppr($id_to_update)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $return = '';
+        $URL = "$PHP_SELF?onglet=type_absence";
 
-        if($session=="") {
-            $URL = "$PHP_SELF?onglet=type_absence";
-        } else {
-            $URL = "$PHP_SELF?session=$session&onglet=type_absence";
-        }
 
         // delete dans la table conges_type_absence
         $req_delete1='DELETE FROM conges_type_absence WHERE ta_id='. \includes\SQL::quote($id_to_update);
@@ -496,17 +461,12 @@ class Fonctions
         return $return;
     }
 
-    public static function supprimer($session, $id_to_update)
+    public static function supprimer($id_to_update)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $return = '';
 
-        if($session=="") {
-            $URL = "$PHP_SELF?onglet=type_absence";
-        } else {
-            $URL = "$PHP_SELF?session=$session&onglet=type_absence";
-        }
-
+        $URL = "$PHP_SELF?onglet=type_absence";
 
         // verif si pas de periode de ce type de conges !!!
         //requête qui récupère les informations de la table conges_periode
@@ -549,16 +509,11 @@ class Fonctions
         return $return;
     }
 
-    public static function commit_modif_absence(&$tab_new_values, $session, $id_to_update)
+    public static function commit_modif_absence(&$tab_new_values, $id_to_update)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $return = '';
-
-        if($session=="") {
-            $URL = "$PHP_SELF";
-        } else {
-            $URL = "$PHP_SELF?session=$session";
-        }
+        $URL = "$PHP_SELF";
 
 
         // verif de la saisie
@@ -576,11 +531,7 @@ class Fonctions
 
         if($erreur) {
             $return .= '<br>';
-            if($session=="") {
-                $return .= '<form action="' . $PHP_SELF . '?onglet=type_absence" method="POST">';
-            } else {
-                $return .= '<form action="' . $PHP_SELF . '?session=' . $session . '&onglet=type_absence" method="POST">';
-            }
+            $return .= '<form action="' . $PHP_SELF . '?onglet=type_absence" method="POST">';
             $return .= '<input type="hidden" name="action" value="modif">';
             $return .= '<input type="hidden" name="id_to_update" value="' . $id_to_update .'">';
             $return .= '<input type="hidden" name="tab_new_values[libelle]" value="' . $tab_new_values['libelle'] . '">';
@@ -602,16 +553,11 @@ class Fonctions
         return $return;
     }
 
-    public static function modifier(&$tab_new_values, $session, $id_to_update)
+    public static function modifier(&$tab_new_values, $id_to_update)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $return = '';
-
-        if($session=="") {
-            $URL = "$PHP_SELF?onglet=type_absence";
-        } else {
-            $URL = "$PHP_SELF?session=$session&onglet=type_absence";
-        }
+        $URL = "$PHP_SELF?onglet=type_absence";
 
         /**************************************/
         // affichage du titre
@@ -665,24 +611,16 @@ class Fonctions
         return $return;
     }
 
-    public static function affichage_absence($tab_new_values,$session)
+    public static function affichage_absence($tab_new_values)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
         $return = '';
-
-        if($session=="") {
-            $URL = "$PHP_SELF?onglet=type_absence";
-        } else {
-            $URL = "$PHP_SELF?session=$session&onglet=type_absence";
-        }
+        $URL = "$PHP_SELF?onglet=type_absence";
 
         /**************************************/
         // affichage du titre
         $return .= '<h1>' . _('config_abs_titre') . '</h1>';
         /**************************************/
-
-        // affiche_bouton_retour($session);
-
 
         // affichage de la liste des type d'absence existants
 
@@ -723,15 +661,8 @@ class Fonctions
                         $ta_id = $data['ta_id'];
                         $ta_libelle = $data['ta_libelle'];
                         $ta_short_libelle = $data['ta_short_libelle'];
-
-                        if($session=="") {
-                            $text_modif="<a href=\"$PHP_SELF?action=modif&id_to_update=$ta_id&onglet=type_absence\" title=\"". _('form_modif') ."\"><i class=\"fa fa-pencil\"></i></a>";
-                            $text_suppr="<a href=\"$PHP_SELF?action=suppr&id_to_update=$ta_id&onglet=type_absence\" title=\"". _('form_supprim') ."\"><i class=\"fa fa-times-circle\"></i></a>";
-                        } else {
-                            $text_modif="<a href=\"$PHP_SELF?session=$session&action=modif&id_to_update=$ta_id&onglet=type_absence\" title=\"". _('form_modif') ."\"><i class=\"fa fa-pencil\"></i></a>";
-                            $text_suppr="<a href=\"$PHP_SELF?session=$session&action=suppr&id_to_update=$ta_id&onglet=type_absence\" title=\"". _('form_supprim') ."\"><i class=\"fa fa-times-circle\"></i></a>";
-                        }
-
+                        $text_modif="<a href=\"$PHP_SELF?action=modif&id_to_update=$ta_id&onglet=type_absence\" title=\"". _('form_modif') ."\"><i class=\"fa fa-pencil\"></i></a>";
+                        $text_suppr="<a href=\"$PHP_SELF?action=suppr&id_to_update=$ta_id&onglet=type_absence\" title=\"". _('form_supprim') ."\"><i class=\"fa fa-times-circle\"></i></a>";
                         $childTable .= '<tr><td><strong>' . $ta_libelle . '</strong></td><td>' . $ta_short_libelle . '</td><td class="action">' . $text_modif . '&nbsp;' . $text_suppr . '</td></tr>';
                     }
                     $table->addChild($childTable);

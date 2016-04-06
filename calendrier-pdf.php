@@ -30,12 +30,11 @@ include ROOT_PATH . 'define.php';
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
 include ROOT_PATH .'fonctions_conges.php';
 include INCLUDE_PATH .'fonction.php';
 
-if(substr($session, 0, 9)!="phpconges")
+if(session_id()=="")
 {
 	session_start();
 	$_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
@@ -170,8 +169,7 @@ function jour_suivant($jour, $mois, $year)
 function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $printable, $selected, $tab_type_absence, $select_groupe)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id();
-		$nb_day = date('t', mktime(1,1,1,$mois,1,$year));
+	$nb_day = date('t', mktime(1,1,1,$mois,1,$year));
     global $content;
 
 		// recup du tableau des types de conges (seulement les conges)
@@ -513,7 +511,6 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 function affiche_cellule_jour_user($sql_login, $j_timestamp, $year_select, $mois_select, $j, $second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence)
 {
 
-	$session=session_id();
     global $content;
 	$return = array();
 
@@ -727,7 +724,6 @@ function affiche_cellule_jour_user($sql_login, $j_timestamp, $year_select, $mois
 // affichage de la légende des couleurs
 function affiche_legende()
 {
-	$session=session_id();
     global $content;
 
 	$content .=  "      <br><br><table cellpadding=\"1\" class=\"calendar table-responsive table-bordered table-stripped\">\n" ;
@@ -765,7 +761,6 @@ function affiche_legende()
 // affichage de la légende explicative des abréviations
 function affiche_legende_type_absence($tab_type_absence)
 {
-	$session=session_id();
     global $content;
 	$content .= "      <table cellpadding=\"1\" class=\"tablo-cal\">\n" ;
 	foreach($tab_type_absence as $id_abs => $tab)
@@ -856,7 +851,6 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 {
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id();
 
 	// quelle liste de groupes recuperer ?
 	if( is_hr($_SESSION['userlogin']) )
@@ -884,7 +878,7 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 	else
 		$list_groupes=get_list_groupes_du_user($_SESSION['userlogin'] );
 
-	$content .= "<form id=\"group-select-form\" class=\"form-inline\" action=\"$PHP_SELF?session=$session&printable=$printable&selected=$selected&year=$year&mois=$mois&first_jour=$first_jour\" method=\"POST\">\n";
+	$content .= "<form id=\"group-select-form\" class=\"form-inline\" action=\"$PHP_SELF?printable=$printable&selected=$selected&year=$year&mois=$mois&first_jour=$first_jour\" method=\"POST\">\n";
 	if (trim($list_groupes) == '')
 		$tab_groupes=array();
 	else

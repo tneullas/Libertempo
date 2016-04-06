@@ -30,11 +30,8 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $PHP_SELF=$_SERVER['PHP_SELF'];
 $timeout=2 ; // refresh après maj.
+$URL = "$PHP_SELF";
 
-if(!isset($session) || $session == "")
-    $URL = "$PHP_SELF";
-else
-    $URL = "$PHP_SELF?session=$session";
 echo "<META HTTP-EQUIV=REFRESH CONTENT=\"$timeout; URL=$URL\">";
 
 

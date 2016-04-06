@@ -83,7 +83,6 @@ class Fonctions
         $return = '';
 
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id();
 
         // verif validité des valeurs saisies
         $valid = verif_saisie_new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment);
@@ -129,7 +128,7 @@ class Fonctions
             $return .= schars( _('resp_traite_user_valeurs_not_ok') ) . ' !<br><br>.';
         }
 
-        $return .= '<a class="btn" href="' . $PHP_SELF . '?session=' . $session . '">' . _('form_retour') . '</a>';
+        $return .= '<a class="btn" href="' . $PHP_SELF . '">' . _('form_retour') . '</a>';
 
         return $return;
     }
@@ -225,7 +224,6 @@ class Fonctions
     public static function modifier($p_num_to_update, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $p_etat, $onglet)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id() ;
         $return = '';
         $VerifNb = verif_saisie_decimal($new_nb_jours);
         $sql1 = "UPDATE conges_periode
@@ -247,7 +245,7 @@ class Fonctions
 
         $return .= _('form_modif_ok') . '<br><br>';
         /* APPEL D'UNE AUTRE PAGE */
-        $return .= '<form action="'.ROOT_PATH .'utilisateur/user_index.php?session='.$session.'&onglet=demandes_en_cours" method="POST">';
+        $return .= '<form action="'.ROOT_PATH .'utilisateur/user_index.php?onglet=demandes_en_cours" method="POST">';
         $return .= '<input class="btn" type="submit" value="'. _('form_submit') .'">';
         $return .= '</form>';
 
@@ -258,7 +256,6 @@ class Fonctions
     public static function confirmer($p_num, $onglet)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id();
         $return = '';
 
         // Récupération des informations
@@ -343,12 +340,11 @@ class Fonctions
         $return .= '<hr/>';
         $return .= '<input type="hidden" name="p_num_to_update" value="' . $p_num . '">';
         $return .= '<input type="hidden" name="p_etat" value="' . $sql_etat . '">';
-        $return .= '<input type="hidden" name="session" value="' . $session . '">';
         $return .= '<input type="hidden" name="user_login" value="'.$_SESSION['userlogin'].'">';
         $return .= '<input type="hidden" name="onglet" value="' . $onglet . '">';
         $return .= '<p id="comment_nbj" style="color:red">&nbsp;</p>';
         $return .= '<input class="btn btn-success" type="submit" value="' . _('form_submit') . '">';
-        $return .= '<a class="btn" href="' . $PHP_SELF . '?session=' . $session . '&onglet=demandes_en_cours">' . _('form_cancel') . '</a>';
+        $return .= '<a class="btn" href="' . $PHP_SELF . '?onglet=demandes_en_cours">' . _('form_cancel') . '</a>';
         $return .= '</form>';
 
         return $return;
@@ -419,7 +415,6 @@ class Fonctions
     public static function suppression($p_num_to_delete, $onglet)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id() ;
         $return = '';
 
         if($_SESSION['config']['mail_supp_demande_alerte_resp']) {
@@ -438,7 +433,7 @@ class Fonctions
             $return .= _('form_modif_not_ok') ."<br><br> \n";
 
         /* APPEL D'UNE AUTRE PAGE */
-        $return .= '<form action="'.ROOT_PATH .'utilisateur/user_index.php?session='.$session.'&onglet=demandes_en_cours" method="POST">';
+        $return .= '<form action="'.ROOT_PATH .'utilisateur/user_index.php?onglet=demandes_en_cours" method="POST">';
         $return .= '<input class="btn" type="submit" value="'. _('form_submit') .'">';
         $return .= '</form>';
         $return .= '<a href="">';
@@ -449,7 +444,6 @@ class Fonctions
     public static function confirmerSuppression($p_num, $onglet)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id() ;
         $return = '';
 
         // Récupération des informations
@@ -500,10 +494,9 @@ class Fonctions
         $return .= '</table>';
         $return .= '<hr/>';
         $return .= '<input type="hidden" name="p_num_to_delete" value="' . $p_num . '">';
-        $return .= '<input type="hidden" name="session" value="' . $session . '">';
         $return .= '<input type="hidden" name="onglet" value="' . $onglet . '">';
         $return .= '<input class="btn btn-danger" type="submit" value="' . _('form_supprim') . '">';
-        $return .= '<a class="btn" href="' . $PHP_SELF . '?session=' . $session . '&onglet=demandes_en_cours">' . _('form_cancel') . '</a>';
+        $return .= '<a class="btn" href="' . $PHP_SELF . '?onglet=demandes_en_cours">' . _('form_cancel') . '</a>';
         $return .= '</form>';
 
         return $return;
@@ -546,7 +539,6 @@ class Fonctions
     public static function change_passwd( $new_passwd1, $new_passwd2)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id();
         $return = '';
 
         if((strlen($new_passwd1)==0) || (strlen($new_passwd2)==0) || ($new_passwd1!=$new_passwd2)) // si les 2 passwd sont vides ou differents
@@ -595,10 +587,9 @@ class Fonctions
             $return .= \utilisateur\Fonctions::change_passwd($new_passwd1, $new_passwd2);
         } else {
             $PHP_SELF=$_SERVER['PHP_SELF'];
-            $session=session_id();
 
             $return .= '<h1>' . _('user_change_password') . '</h1>';
-            $return .= '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'" method="POST">';
+            $return .= '<form action="'.$PHP_SELF.'?onglet='.$onglet.'" method="POST">';
             $return .= '<table cellpadding="2" class="tablo" width="500">';
             $return .= '<thead>';
             /*
@@ -643,7 +634,6 @@ class Fonctions
      */
     public static function demandeEnCoursModule()
     {
-        $session=session_id();
         $return = '';
         if($_SESSION['config']['where_to_find_user_email']=="ldap"){
             include_once CONFIG_PATH .'config_ldap.php';
@@ -726,9 +716,9 @@ class Fonctions
                     if($sql_p_etat=="valid")
                         $user_modif_demande="&nbsp;";
                     else
-                        $user_modif_demande="<a href=\"user_index.php?session=$session&p_num=$sql_p_num&onglet=modif_demande\">". _('form_modif') ."</a>" ;
+                        $user_modif_demande="<a href=\"user_index.php?p_num=$sql_p_num&onglet=modif_demande\">". _('form_modif') ."</a>" ;
                 }
-                $user_suppr_demande="<a href=\"user_index.php?session=$session&p_num=$sql_p_num&onglet=suppr_demande\">". _('form_supprim') ."</a>" ;
+                $user_suppr_demande="<a href=\"user_index.php?p_num=$sql_p_num&onglet=suppr_demande\">". _('form_supprim') ."</a>" ;
                 $return .= '<tr class="'.($i?'i':'p').'">';
                 $return .= '<td class="histo">'.schars($sql_p_date_deb).' _ '.schars($demi_j_deb).'</td>';
                 $return .= '<td class="histo">'.schars($sql_p_date_fin).' _ '.schars($demi_j_fin).'</td>' ;
@@ -925,8 +915,6 @@ class Fonctions
         $return = '';
 
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id();
-
         $duree_demande_1="";
         $duree_demande_2="";
         $valid=TRUE;
@@ -1191,7 +1179,7 @@ class Fonctions
         }
 
         /* RETOUR PAGE PRINCIPALE */
-        $return .= '<form action="' . $PHP_SELF . '?session=' . $session . '&onglet=' . $onglet . '" method="POST">';
+        $return .= '<form action="' . $PHP_SELF . '?onglet=' . $onglet . '" method="POST">';
         $return .= '<input type="submit" value="Retour">';
         $return .= '</form>';
 
@@ -1204,13 +1192,12 @@ class Fonctions
         $user_login = $_SESSION['userlogin'];
         $return = '';
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id();
         $mois_calendrier_saisie_debut_prec=0; $year_calendrier_saisie_debut_prec=0;
         $mois_calendrier_saisie_debut_suiv=0; $year_calendrier_saisie_debut_suiv=0;
         $mois_calendrier_saisie_fin_prec=0; $year_calendrier_saisie_fin_prec=0;
         $mois_calendrier_saisie_fin_suiv=0; $year_calendrier_saisie_fin_suiv=0;
 
-        $return .= '<form action="'.$PHP_SELF.'?session='.$session.'&&onglet='.$onglet.'" method="POST">' ;
+        $return .= '<form action="'.$PHP_SELF.'?onglet='.$onglet.'" method="POST">' ;
 
         $return .= '<table class="table table condensed">';
         $return .= '<tr align="center">';
@@ -1229,7 +1216,7 @@ class Fonctions
         // affichage des boutons de défilement
         // recul du mois saisie debut
         $return .= '<td align="center">';
-        $return .= '<a href="' . $PHP_SELF . '?session=' . $session . '&year_calendrier_saisie_debut=' . $year_calendrier_saisie_debut_prec . '&mois_calendrier_saisie_debut=' . $mois_calendrier_saisie_debut_prec . '&year_calendrier_saisie_fin=' . $year_calendrier_saisie_fin . '&mois_calendrier_saisie_fin=' . $mois_calendrier_saisie_fin . '&user_login=' . $user_login . '&onglet=' .$onglet . '">';
+        $return .= '<a href="' . $PHP_SELF . '?year_calendrier_saisie_debut=' . $year_calendrier_saisie_debut_prec . '&mois_calendrier_saisie_debut=' . $mois_calendrier_saisie_debut_prec . '&year_calendrier_saisie_fin=' . $year_calendrier_saisie_fin . '&mois_calendrier_saisie_fin=' . $mois_calendrier_saisie_fin . '&user_login=' . $user_login . '&onglet=' .$onglet . '">';
         $return .= '<i class="fa fa-chevron-circle-left"></i>';
         $return .= '</a>';
         $return .= '</td>';
@@ -1240,7 +1227,7 @@ class Fonctions
         // affichage des boutons de défilement
         // avance du mois saisie debut
         $return .= '<td align="center">';
-        $return .= '<a href="' . $PHP_SELF . '?session=' . $session . '&year_calendrier_saisie_debut=' . $year_calendrier_saisie_debut_suiv . '&mois_calendrier_saisie_debut=' . $mois_calendrier_saisie_debut_suiv . '&year_calendrier_saisie_fin=' . $year_calendrier_saisie_fin . '&mois_calendrier_saisie_fin=' . $mois_calendrier_saisie_fin . '&user_login=' . $user_login . '&onglet=' . $onglet . '">';
+        $return .= '<a href="' . $PHP_SELF . '?year_calendrier_saisie_debut=' . $year_calendrier_saisie_debut_suiv . '&mois_calendrier_saisie_debut=' . $mois_calendrier_saisie_debut_suiv . '&year_calendrier_saisie_fin=' . $year_calendrier_saisie_fin . '&mois_calendrier_saisie_fin=' . $mois_calendrier_saisie_fin . '&user_login=' . $user_login . '&onglet=' . $onglet . '">';
         $return .= '<i class="fa fa-chevron-circle-right"></i>';
         $return .= '</a>';
         $return .= '</td>';
@@ -1271,7 +1258,7 @@ class Fonctions
         // affichage des boutons de défilement
         // recul du mois saisie fin
         $return .= '<td align="center">';
-        $return .= '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_prec.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_prec.'&user_login='.$user_login.'&onglet='.$onglet.'">';
+        $return .= '<a href="'.$PHP_SELF.'?year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_prec.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_prec.'&user_login='.$user_login.'&onglet='.$onglet.'">';
         $return .= '<i class="fa fa-chevron-circle-left"></i>';
         $return .= '</a>';
         $return .= '</td>';
@@ -1282,7 +1269,7 @@ class Fonctions
         // affichage des boutons de défilement
         // avance du mois saisie fin
         $return .= '<td align="center">';
-        $return .= '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_suiv.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_suiv.'&user_login='.$user_login.'&onglet='.$onglet.'">';
+        $return .= '<a href="'.$PHP_SELF.'?year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_suiv.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_suiv.'&user_login='.$user_login.'&onglet='.$onglet.'">';
         $return .= '<i class="fa fa-chevron-circle-right"></i>';
         $return .= '</a>';
         $return .= '</td>';
@@ -1304,7 +1291,7 @@ class Fonctions
         $return .= '<input type="hidden" name="user_login" value="'.schars($user_login).'">';
         $return .= '<input type="hidden" name="new_echange_rtt" value=1>';
         $return .= '<input class="btn btn-success" type="submit" value="'. _('form_submit') .'">';
-        $return .= "<a class=\"btn\" href=\"$PHP_SELF?session=$session\">". _('form_cancel') ."</a>\n";
+        $return .= "<a class=\"btn\" href=\"$PHP_SELF\">". _('form_cancel') ."</a>\n";
         $return .= '</form>' ;
 
         return $return;
@@ -1363,7 +1350,6 @@ class Fonctions
     public static function historiqueCongesModule()
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id();
         $return = '';
         if($_SESSION['config']['where_to_find_user_email']=="ldap"){
             include_once CONFIG_PATH .'config_ldap.php';
@@ -1382,9 +1368,9 @@ class Fonctions
         $year_affichage_suiv = $year_affichage+1 ;
 
         $return .= '<b>';
-        $return .= '<a href="' . $PHP_SELF . '?session=' . $session . '&onglet=historique_conges&year_affichage=' . $year_affichage_prec . '"><<</a>';
+        $return .= '<a href="' . $PHP_SELF . '?onglet=historique_conges&year_affichage=' . $year_affichage_prec . '"><<</a>';
         $return .= '&nbsp&nbsp&nbsp  ' . schars($year_affichage) . ' &nbsp&nbsp&nbsp';
-        $return .= '<a href="' . schars($PHP_SELF) . '?session=' . schars($session) . '&onglet=historique_conges&year_affichage=' . schars($year_affichage_suiv) . '">>></a>';
+        $return .= '<a href="' . schars($PHP_SELF) . '?onglet=historique_conges&year_affichage=' . schars($year_affichage_suiv) . '">>></a>';
         $return .= '</b><br><br>';
 
 
@@ -1510,7 +1496,6 @@ class Fonctions
     public static function historiqueAutresAbsencesModule($onglet)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id();
         $return = '';
         if($_SESSION['config']['where_to_find_user_email']=="ldap"){
             include_once CONFIG_PATH .'config_ldap.php';
@@ -1526,9 +1511,9 @@ class Fonctions
         $year_affichage_suiv = $year_affichage+1 ;
 
         $return .= '<b>';
-        $return .= '<a href="' . $PHP_SELF . '?session=' . $session . '&onglet=historique_autres_absences&year_affichage=' . $year_affichage_prec . '"><<</a>';
+        $return .= '<a href="' . $PHP_SELF . '?onglet=historique_autres_absences&year_affichage=' . $year_affichage_prec . '"><<</a>';
         $return .= '&nbsp&nbsp&nbsp ' . $year_affichage . '&nbsp&nbsp&nbsp';
-        $return .= '<a href="' . $PHP_SELF . '?session=' . $session . '&onglet=historique_autres_absences&year_affichage=' . $year_affichage_suiv . '">>></a>';
+        $return .= '<a href="' . $PHP_SELF . '?onglet=historique_autres_absences&year_affichage=' . $year_affichage_suiv . '">>></a>';
         $return .= '</b><br><br>';
 
 
@@ -1556,9 +1541,9 @@ class Fonctions
             $return .= '<thead>';
             $return .= '<tr>';
             $return .= '<td>';
-            $return .= '<a href="' . $PHP_SELF . '?session=' . $session . '&onglet=' . $onglet . '&tri_date=descendant"><img src="' . IMG_PATH . '1downarrow-16x16.png" width="16" height="16" border="0" title="trier"></a>';
+            $return .= '<a href="' . $PHP_SELF . '?onglet=' . $onglet . '&tri_date=descendant"><img src="' . IMG_PATH . '1downarrow-16x16.png" width="16" height="16" border="0" title="trier"></a>';
             $return .= _('divers_debut_maj_1');
-            $return .= '<a href="' . $PHP_SELF . '?session=' . $session . '&onglet=' . $onglet . '&tri_date=ascendant"><img src="' . IMG_PATH . '1uparrow-16x16.png" width="16" height="16" border="0" title="trier"></a>';
+            $return .= '<a href="' . $PHP_SELF . '?onglet=' . $onglet . '&tri_date=ascendant"><img src="' . IMG_PATH . '1uparrow-16x16.png" width="16" height="16" border="0" title="trier"></a>';
             $return .= '</td>';
             $return .= '<td>' . _('divers_fin_maj_1') . '</td>';
             $return .= '<td>' . _('user_abs_type') . '</td>';
@@ -1594,8 +1579,8 @@ class Fonctions
 
                 // si le user a le droit de saisir lui meme ses absences et qu'elle n'est pas deja annulee, on propose de modifier ou de supprimer
                 if(($sql_etat != "annul")&&($_SESSION['config']['user_saisie_mission'])) {
-                    $user_modif_mission="<a href=\"user_index.php?session=$session&p_num=$sql_num&onglet=modif_demande\">". _('form_modif') ."</a>" ;
-                    $user_suppr_mission="<a href=\"user_index.php?session=$session&p_num=$sql_num&onglet=suppr_demande\">". _('form_supprim') ."</a>" ;
+                    $user_modif_mission="<a href=\"user_index.php?p_num=$sql_num&onglet=modif_demande\">". _('form_modif') ."</a>" ;
+                    $user_suppr_mission="<a href=\"user_index.php?p_num=$sql_num&onglet=suppr_demande\">". _('form_supprim') ."</a>" ;
                 } else {
                     $user_modif_mission=" - " ;
                     $user_suppr_mission=" - " ;

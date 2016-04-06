@@ -28,22 +28,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 define('ROOT_PATH', '../');
 require_once ROOT_PATH . 'define.php';
 include_once INCLUDE_PATH . 'fonction.php';
-
-$session =(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
-
-if (empty($session)) {
-	redirect(ROOT_PATH . 'index.php?return_url=config/index.php');
-}
-
-
+include_once INCLUDE_PATH . 'session.php';
 include_once ROOT_PATH .'fonctions_conges.php' ;
 
 $_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
 include_once INCLUDE_PATH .'session.php';
 
 $PHP_SELF=$_SERVER['PHP_SELF'];
-
-$session=session_id();
 
 // verif des droits du user à afficher la page
 verif_droits_user("is_admin");
@@ -98,14 +89,14 @@ $_SESSION['from_config']=TRUE;  // initialise ce flag pour changer le bouton de 
 	echo '<div id="onglet_menu">';
 	foreach($onglets as $key => $title) {
 		echo '<div class="onglet '.($onglet == $key ? ' active': '').'" >
-			<a href="'.$PHP_SELF.'?session='.$session.'&onglet='.$key.'">'. $title .'</a>
+			<a href="'.$PHP_SELF.'?onglet='.$key.'">'. $title .'</a>
 		</div>';
 	}
 	echo '</div>';
 
 	echo '<div class="'.$onglet.' wrapper">';
 
-		echo '<a href="' . ROOT_PATH . "admin/admin_index.php?session=$session\" class=\"admin-back\"><i class=\"fa fa-arrow-circle-o-left\"></i>". _('form_retour')."</a>\n";
+		echo '<a href="' . ROOT_PATH . 'admin/admin_index.php" class="admin-back"><i class="fa fa-arrow-circle-o-left"></i>'. _('form_retour').'</a>\n';
 
 		if($onglet == 'general') {
 			include_once ROOT_PATH . 'config/configure.php';

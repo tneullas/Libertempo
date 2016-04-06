@@ -28,15 +28,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 define('ROOT_PATH', '');
 require_once ROOT_PATH . 'define.php';
 
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
-
 include_once ROOT_PATH . 'fonctions_conges.php' ;
 include_once INCLUDE_PATH . 'fonction.php';
 include_once INCLUDE_PATH . 'session.php';
 include_once ROOT_PATH . 'fonctions_calcul.php';
 
 /*** initialisation des variables ***/
-$session=session_id();
 $user="";
 $date_debut="";
 $date_fin="";
@@ -63,7 +60,6 @@ if( ($user!="") && ($date_debut!="") && ($date_fin!="") && ($opt_debut!="") && (
 function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $p_num="")
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id();
 	$comment="&nbsp;" ;
 
 

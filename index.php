@@ -147,7 +147,6 @@ else
 				$username_ldap = authentification_ldap_conges($session_username,$session_password);
 				if ( $username_ldap != $session_username)
 				{
-					$session="";
 					$session_username="";
 					$session_password="";
 					$erreur="login_passwd_incorrect";
@@ -180,7 +179,6 @@ else
 				$username_conges = autentification_passwd_conges($session_username,$session_password);
 				if ( $username_conges != $session_username)
 				{
-					$session="";
 					$session_username="";
 					$session_password="";
 					$erreur="login_passwd_incorrect";
@@ -211,7 +209,6 @@ if(isset($_SESSION['userlogin']))
 	}
 	else
 	{
-		$session=session_id();
 		$row = $rs->fetch_array();
 		$NOM=$row["u_nom"];
 		$PRENOM=$row["u_prenom"];
@@ -222,25 +219,22 @@ if(isset($_SESSION['userlogin']))
 		$return_url = getpost_variable('return_url');
 		if (!empty($return_url))
 		{
-			if (strpos($return_url,'?'))
-				redirect( ROOT_PATH . $return_url .'&session=' . $session );
-			else
-				redirect( ROOT_PATH .$return_url . '?session=' . $session );
+			redirect( ROOT_PATH . $return_url );
 		}
 		elseif ($_SESSION['userlogin']=="admin")
 		{
 			// redirection vers responsable/resp_index.php
-			redirect( ROOT_PATH .'admin/admin_index.php?session=' . $session );
+			redirect( ROOT_PATH .'admin/admin_index.php' );
 		}
 		elseif ( $is_resp=="Y" )
 		{
 			// redirection vers responsable/resp_index.php
-			redirect( ROOT_PATH .'responsable/resp_index.php?session=' . $session );
+			redirect( ROOT_PATH .'responsable/resp_index.php' );
 		}
 		else
 		{
 			// redirection vers utilisateur/user_index.php
-			redirect( ROOT_PATH . 'utilisateur/user_index.php?session=' . $session );
+			redirect( ROOT_PATH . 'utilisateur/user_index.php' );
 		}
 
 	}

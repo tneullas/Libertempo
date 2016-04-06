@@ -33,7 +33,6 @@ class Fonctions
 {
     public static function affiche_anciennes_editions($login)
     {
-        $session=session_id();
         $return = '';
 
         $return .= '<CENTER>';
@@ -66,12 +65,11 @@ class Fonctions
             $return .= '</tr></thead><tbody>';
 
             foreach($tab_editions_user as $id_edition => $tab_ed) {
-                //$text_edit_a_nouveau="<a href=\"edition_papier.php?session=$session&user_login=$login&edit_id=$sql_id\">Editer à nouveau</a>" ;
-                $text_edit_a_nouveau="<a href=\"edition_papier.php?session=$session&user_login=$login&edit_id=$id_edition\">" .
+                $text_edit_a_nouveau="<a href=\"edition_papier.php?user_login=$login&edit_id=$id_edition\">" .
                         "<img src=\"". IMG_PATH . "fileprint_16x16_2.png\" width=\"16\" height=\"16\" border=\"0\" title=\"". _('editions_edit_again') ."\" alt=\"". _('editions_edit_again') ."\">" .
                         " ". _('editions_edit_again')  .
                         "</a>\n";
-                $text_edit_pdf_a_nouveau="<a href=\"edition_pdf.php?session=$session&user_login=$login&edit_id=$id_edition\">" .
+                $text_edit_pdf_a_nouveau="<a href=\"edition_pdf.php?user_login=$login&edit_id=$id_edition\">" .
                         "<img src=\"". IMG_PATH . "pdf_16x16_2.png\" width=\"16\" height=\"16\" border=\"0\" title=\"". _('editions_edit_again_pdf') ."\" alt=\"". _('editions_edit_again_pdf') ."\">" .
                         " ". _('editions_edit_again_pdf')  .
                         "</a>\n";
@@ -98,7 +96,6 @@ class Fonctions
 
     public static function affiche_nouvelle_edition($login)
     {
-        $session=session_id();
         $return = '';
         $return .= '<CENTER>';
 
@@ -194,13 +191,13 @@ class Fonctions
             $return .= '<table cellpadding="2" width="400">';
             $return .= '<tr align="center">';
             $return .= '<td width="200">';
-            $return .= '<a href="edition_papier.php?session=' . $session . '&user_login=' . $login . '&edit_id=0">';
+            $return .= '<a href="edition_papier.php?user_login=' . $login . '&edit_id=0">';
             $return .= '<img src="' . IMG_PATH . 'fileprint_2.png" width="22" height="22" border="0" title="' . _('editions_lance_edition') . '" alt="' . _('editions_lance_edition') . '">';
             $return .= '<b>' . _('editions_lance_edition') . '</b>';
             $return .= '</a>';
             $return .= '</td>';
             $return .= '<td width="200">';
-            $return .= '<a href="edition_pdf.php?session=' . $session . '&user_login=' . $login . '&edit_id=0">';
+            $return .= '<a href="edition_pdf.php?user_login=' . $login . '&edit_id=0">';
             $return .= '<img src="' . IMG_PATH . 'pdf_22x22_2.png" width="22" height="22" border="0" title="' . _('editions_pdf_edition') . '" alt="' . _('editions_pdf_edition') . '">';
             $return .= '<b>' . _('editions_pdf_edition') . '</b>';
             $return .= '</a>';
@@ -218,7 +215,6 @@ class Fonctions
     public static function affichage($login)
     {
         $PHP_SELF=$_SERVER['PHP_SELF'];
-        $session=session_id();
         $return = '';
 
         $sql1 = 'SELECT u_nom, u_prenom, u_quotite FROM conges_users where u_login = "'. \includes\SQL::quote($login).'"';
@@ -249,7 +245,6 @@ class Fonctions
     /**
      * Encapsule le comportement du module d'édition des utilisateurs
      *
-     * @param string $session
      *
      * @return void
      * @access public
@@ -257,7 +252,6 @@ class Fonctions
      */
     public static function editUserModule()
     {
-        $session=session_id();
         /*************************************/
         // recup des parametres reçus :
         // SERVER
@@ -307,7 +301,6 @@ class Fonctions
 
     public static function edition_papier($login, $edit_id)
     {
-        $session=session_id();
         $return = '';
 
         // recup infos du user
@@ -537,7 +530,6 @@ class Fonctions
     /**
      * Encapsule le comportement du module de l'édition papier
      *
-     * @param string $session
      *
      * @return void
      * @access public
@@ -545,7 +537,6 @@ class Fonctions
      */
     public static function editPapierModule()
     {
-        $session=session_id();
         /*************************************/
         // recup des parametres reçus :
         // GET / POST
@@ -1011,7 +1002,6 @@ class Fonctions
     /**
      * Encapsule le comportement du module d'édition PDF
      *
-     * @param string $session
      *
      * @return void
      * @access public
@@ -1019,7 +1009,6 @@ class Fonctions
      */
     public static function editPDFModule()
     {
-        $session=session_id();
         /*************************************/
         // recup des parametres reçus :
         // GET / POST
