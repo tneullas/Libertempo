@@ -3136,12 +3136,16 @@ class Fonctions
             // afin de pouvoir construire une liste déroulante dans le formulaire qui suit...
             $tab_ldap  = array();
             $tab_login = array();
-            \admin\Fonctions::recup_users_from_ldap($tab_ldap, $tab_login);
+            //\admin\Fonctions::recup_users_from_ldap($tab_ldap, $tab_login);
 
             // construction de la liste des users récupérés du ldap ...
             array_multisort($tab_ldap, $tab_login); // on trie les utilisateurs par le nom
+            
+            $lst_users = '<input type="text" class="form-control" id="autocomplete" /><div id="autocomplete-list"></div>';
+            $lst_users_uid = '<input type="hidden" multiple id="autocomplete-uid" name="new_ldap_user[]"/>';
 
-            $lst_users = "<select multiple size=9 name=new_ldap_user[]><option>------------------</option>\n";
+
+            /*$lst_users = "<select multiple size=9 name=new_ldap_user[]><option>------------------</option>\n";
             $i = 0;
 
             foreach ($tab_login as $login) {
@@ -3149,7 +3153,8 @@ class Fonctions
                 $i++;
             }
             $lst_users .= "</select>\n";
-            $childTable .= '<td>' . $lst_users . '</td>';
+            $childTable .= '<td>' . $lst_users . '</td>';*/
+            $childTable .= '<td>' . $lst_users . $lst_users_uid . '</td>';
         } else {
             $childTable .= '<td>' . $text_login . '</td>';
             $childTable .= '<td>' . $text_nom . '</td>';
@@ -3517,6 +3522,7 @@ class Fonctions
             $index = 0;
             // On lance une boucle pour selectionner tous les items
             // traitements : $login contient les valeurs successives
+            $_POST['new_ldap_user'] = explode(',', $_POST['new_ldap_user'][0]);
             foreach($_POST['new_ldap_user'] as $login) {
                 $tab_login[$index] = $login;
                 $index++;

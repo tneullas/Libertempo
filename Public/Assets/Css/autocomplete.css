@@ -1,0 +1,54 @@
+#autocomplete-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+#autocomplete-list>span {
+    width: 100%;
+    padding: .5em;
+    background: #9b59b6;
+    color: #fff;
+    margin-top: 1em;
+    position: relative;
+    padding-right: 35px;
+    height: 34px;
+}
+
+#autocomplete-list>span>span {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    display: block;
+    background: rgba(0, 0, 0, .2);
+    width: 25px;
+    text-align: center;
+    cursor: pointer;
+    line-height: 34px;
+    transition: all .2s;
+}
+
+#autocomplete-list>span>span:hover {
+    background: #c0392b;
+}
+
+.ui-autocomplete {
+    max-height: 300px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    /* add padding to account for vertical scrollbar */
+    padding-right: 20px;
+}
+
+
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+
+* html .ui-autocomplete {
+    height: 300px;
+}

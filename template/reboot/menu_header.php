@@ -90,15 +90,18 @@
         <meta name="msapplication-TileImage" content="<?= IMG_PATH ?>Favicons/mstile-144x144.png">
         <meta name="theme-color" content="#ffffff">
         <?php /* BOOTSTRAP */?>
+        <link type="text/css" href="<?= ASSETS_PATH ?>Css/autocomplete.css" rel="stylesheet" media="screen" />
         <link type="text/css" href="<?= ASSETS_PATH ?>bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen,print">
         <link type="text/css" href="<?= CSS_PATH ?>datepicker.css" rel="stylesheet" media="screen">
         <link type="text/css" href="<?= ASSETS_PATH ?>bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" media="screen" />
+        <link type="text/css" href="<?= ASSETS_PATH ?>jquery/css/base/jquery-ui-1.12.min.css" rel="stylesheet" media="screen,print">
         <?php /* FONT AWESOME */ ?>
         <link href="<?= ASSETS_PATH ?>font-awesome/css/font-awesome.css" rel="stylesheet">
         <?php /* REBOOT STYLE */ ?>
         <link type="text/css" href="<?= CSS_PATH ?>reboot.css" rel="stylesheet" media="screen,print">
         <?php /* JQUERY */ ?>
         <script type="text/javascript" src="<?= ASSETS_PATH ?>jquery/js/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="<?= ASSETS_PATH ?>jquery/js/jquery-ui-1.12.custom.min.js"></script>
         <script type="text/javascript" src="<?= ASSETS_PATH  ?>bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="<?= ASSETS_PATH ?>bootstrap-datepicker/bootstrap-datepicker.js"></script>
         <script type="text/javascript" src="<?= ASSETS_PATH ?>bootstrap-datepicker/locales/bootstrap-datepicker.fr.js"></script>
